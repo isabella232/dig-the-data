@@ -95,10 +95,13 @@ class D3Player {
     this.playing = !this.playing;
 
     // Toggle the class names for the play pause button
-    this.dom.find('.play-pause')
-      .toggleClass('play pause')
-      .find('i')
+    const $pp = this.dom.find('.play-pause')
+      .toggleClass('play pause');
+    $pp.find('i')
       .toggleClass('fa-play fa-pause');
+    const url = this.playing ?
+      '/images/icons/icons.svg#pause' : '/images/icons/icons.svg#play';
+    $pp.find('use').attr('xlink:href', url);
 
     this.adjustSpeed();
   }
