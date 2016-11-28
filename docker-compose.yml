@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  dev:
+    build: .
+    container_name: dtd-dev
+    command: node_modules/.bin/gulp docker
+    volumes:
+     - .:/app/user
+    environment:
+     - NODE_ENV=development
+    ports:
+      - "3000:3000"

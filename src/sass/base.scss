@@ -1,0 +1,24 @@
+@import 'variables';
+
+line, path.line {
+  fill: none;
+  stroke: $darkblue;
+  stroke-width: 1px;
+}
+
+path.arc {
+  fill-opacity: 0.8;
+  transition: fill-opacity .3s;
+
+  &.hover {
+    fill-opacity: 0.4;
+    transition: fill-opacity .3s;
+  }
+}
+
+polyline {
+  opacity: .3;
+  stroke: #000;
+  stroke-width: 2px;
+  fill: none;
+}

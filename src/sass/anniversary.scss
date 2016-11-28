@@ -1,0 +1,181 @@
+@import 'base';
+
+// Poppins:700|Rubik:700 imported via <link>
+body {
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+}
+
+.number, tspan.value, .tick text {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 700;
+}
+
+ul.pager {
+  a {
+    color: $darkblue;
+  }
+}
+
+#tooltip {
+  position: absolute;
+  z-index: 9999;
+  max-width: 150px;
+  background: #eeeeee;
+  color: $darkblue;
+  padding: 7px;
+  text-align: center;
+  border: 0px;
+  border-radius: 4px;
+
+  .country {
+    .value {
+      font-size: 18px;
+    }
+  }
+}
+
+#loader {
+  font-size: 24px;
+  position: fixed;
+  z-index: 999;
+  height: 50px;
+  width: 150px;
+  margin: 300px auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  &:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($darkblue, 0.3);
+  }
+}
+
+#line-container {
+  height: 350px;
+
+  svg {
+    overflow: visible;
+  }
+
+  path.line {
+    stroke-width: 2px;
+  }
+
+  .tick text {
+    font-weight: 400;
+  }
+}
+
+#status-container {
+  height: 130px;
+
+  svg {
+    overflow: visible;
+  }
+
+  line.timeline {
+    stroke: $darkblue;
+    stroke-dasharray: 4px;
+  }
+
+  .status-event {
+    text {
+      font-size: 12px;
+    }
+
+    line {
+      stroke-dasharray: 2px;
+    }
+  }
+}
+
+#donut-container {
+  height: 200px;
+}
+
+#map-container {
+  //height: 600px;
+
+  .countries {
+    stroke: darken($darkblue, 3%);
+    stroke-linejoin: round;
+
+    path.hover {
+      fill-opacity: 0.8;
+    }
+  }
+}
+
+.revenue {
+  div {
+    color: $green;
+    font-size: 50px;
+    font-weight: 700;
+
+    span {
+      display: inline-block;
+      width: 32px;
+
+      &.comma {
+        width: 20px !important;
+      }
+    }
+  }
+}
+
+div.clicks {
+  display: table;
+  height: 44px;
+
+  svg.icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 4px;
+  }
+}
+
+.receipt {
+  color: $green;
+}
+
+.followup {
+  color: $gray;
+}
+
+.abandoned {
+  color: $orange;
+}
+
+svg.icon {
+  use {
+    &.default {
+      fill: $darkblue;
+    }
+
+    &.receipt {
+      fill: $green;
+    }
+
+    &.followup {
+      fill: $gray;
+    }
+
+    &.abandoned {
+      fill: $orange;
+    }
+  }
+}

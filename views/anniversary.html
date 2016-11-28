@@ -1,0 +1,106 @@
+{% extends 'layouts/_base.html' %}
+{% block styles %}
+<link href="https://fonts.googleapis.com/css?family=Poppins:700|Rubik:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/css/anniversary.css">
+{% endblock %}
+{% block content %}
+<div class="container" style="display:none;">
+  <div class="row">
+    <div class="col-lg-12">
+      <nav aria-label="Time Control">
+        <ul id="time-controls" class="pager" role="group">
+          <li>
+            <a class="rewind" href="#"><i class="fa fa-fw fa-fast-backward"></i></a>
+          </li>
+          <li>
+            <a class="play-pause play" href="#"><i class="fa fa-fw fa-play"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 revenue text-center">
+      <h3>Additional Revenue Generated</h3>
+      <div id="revenue" class="number">&dollar;0</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="status-container">
+        <svg width="100%" height="100%"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="line-container">
+        <svg width="100%" height="100%"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="donut-container">
+        <svg width="100%" height="100%"></svg>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Interactions</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="clicks">
+            <svg class="icon"><use class="default" xlink:href="/images/icons/icons.svg#receipt"/></svg>
+            <div>Receipt Clicks: <span id="receipt-clicks">0</span></div>
+          </div>
+          <div class="clicks">
+            <svg class="icon"><use class="default" xlink:href="/images/icons/icons.svg#clock"/></svg>
+            <div>Follow-up Clicks: <span id="followup-clicks">0</span></div>
+          </div>
+          <div class="clicks">
+            <svg class="icon"><use class="default" xlink:href="/images/icons/icons.svg#cart"/></svg>
+            <div>Abandoned Cart Clicks: <span id="abandoned-clicks">0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="clicks">
+            <svg class="icon"><use class="default" xlink:href="/images/icons/icons.svg#gift"/></svg>
+            <div>Recommendation Clicks: <span id="rec-clicks">0</span></div>
+          </div>
+          <div class="clicks">
+            <svg class="icon"><use class="default" xlink:href="/images/icons/icons.svg#search"/></svg>
+            <div>Search Clicks: <span id="search-clicks">0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="map-container">
+        <svg width="100%" height="100%"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="tooltip" style="display:none"></div>
+<div id="loader">Loading data... <span id="progress">0%</span></div>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="star" viewBox="0 0 720 720">
+    <path fill="inherit" d="M619.39,334.15c-8.3,8-44.35,39.9-45.87,41.2-.42.36-38.53,34.29-69.24,61.16,6.84,30.69,28.25,126.84,32.73,149,.32,1.49.74,3.36,1.17,5.41,5.82,26.45,8.75,44.25-2.3,50.25A16.43,16.43,0,0,1,528,643c-7.56,0-17.94-4-33.66-13-9.93-5.69-50.39-31.07-52.09-32.2-.49-.28-47.39-29.56-82.27-51.84C325,568.3,278.1,597.58,277.68,597.86c-1.73,1.13-42.16,26.51-52.08,32.2-15.72,9-26.1,13-33.66,13a16.64,16.64,0,0,1-7.91-1.84c-11.09-6-8.09-23.8-2.33-50.25.46-2,.85-3.91,1.17-5.41,4.48-22.17,25.92-118.32,32.77-149-30.72-26.88-68.86-60.8-69.24-61.16-1.48-1.34-37.57-33.22-45.83-41.2-18.05-17.37-24.83-28.29-23.41-37.75,1.91-12.85,19-15.6,44.77-18.32,2-.22,3.85-.39,5.33-.57,21.51-2.61,113.91-12,143.19-14.93,13.49-33.79,48.37-120.87,57-141.14.61-1.46,1.27-3.15,2.09-5.13,9.32-23,16.8-39.33,28.29-39.33l1.58.1c.25,0,.42.14.68.18a3.62,3.62,0,0,1,.67-.18l1.59-.1c11.51,0,19,16.31,28.29,39.33.77,2,1.48,3.67,2.08,5.13,8.54,20.27,43.44,107.35,56.92,141.14,29.23,2.93,121.68,12.29,143.19,14.93,1.48.18,3.28.35,5.33.57,25.81,2.72,42.87,5.47,44.77,18.32C644.18,305.87,637.4,316.78,619.39,334.15Z"/>
+  </symbol>
+</svg>
+{% endblock %}
+{% block scripts %}
+<script src="/js/anniversary.js"></script>
+{% endblock %}

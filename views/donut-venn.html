@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dig the Data, October 2016</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/october.css" type="text/css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1>Receiptful Conversions</h1>
+                    <p class="lead">... and their sources</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="svg-container">
+                        <svg width="100%" height="100%"></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-6 text-center">
+                    <div id="description">
+                        <h3></h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="Visualization Pager">
+                        <ul id="view-pager" class="pager">
+                            <li><a class="prev" href="#">Previous View</a></li>
+                            <li><a class="next" href="#">Next View</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-7">
+                    <div id="view-selection" class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">All</button>
+                        <button type="button" class="btn btn-default">Number of sources</button>
+                        <button type="button" class="btn btn-default">Source Types</button>
+                        <button type="button" class="btn btn-default">Email Source Types</button>
+                        <button type="button" class="btn btn-default">Widget Source Types</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tooltip"></div>
+        <script src="/js/jquery-3.1.1.slim.min.js"></script>
+        <script src="/js/d3.js"></script>
+        <script src="http://localhost:8001/build/venn.js"></script>
+        <script src="/js/october.js"></script>
+    </body>
+</html>
