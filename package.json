@@ -1,10 +1,10 @@
 {
   "name": "dig-the-data",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HTML, JS, CSS, etc. for Dig the Data",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Receiptful/dig-the-data.git"
+    "url": "git+https://github.com/getconversio/dig-the-data.git"
   },
   "keywords": [
     "data",
@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/getconversio/dig-the-data#readme",
   "scripts": {
-    "postinstall": "node_modules/.bin/bower install --allow-root && node_modules/.bin/gulp build"
+    "postinstall": "node_modules/.bin/bower install --allow-root && node_modules/.bin/gulp build",
+    "lint": "node_modules/.bin/eslint src/js"
   },
   "dependencies": {
     "babel-core": "^6.18.2",
@@ -42,5 +43,10 @@
     "through2": "^2.0.1",
     "vinyl-named": "^1.1.0",
     "webpack-stream": "^3.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0"
   }
 }

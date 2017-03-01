@@ -10,10 +10,11 @@
   ],
   "dependencies": {
     "jquery": "^3.1.1",
-    "d3": "^4.3.0",
+    "d3": "^4.6.0",
     "font-awesome": "fontawesome#^4.7.0",
     "bootstrap": "^3.3.7",
     "topojson": "^2.1.0",
-    "letteringjs": "^0.7.0"
+    "letteringjs": "^0.7.0",
+    "bootstrap-select": "^1.12.2"
   }
 }

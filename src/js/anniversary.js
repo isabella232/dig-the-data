@@ -5,8 +5,8 @@
  */
 
 const Player = require('./player'),
-  D3Util = require('./d3util'),
   PieChart = require('./d3pie'),
+  WorldMap = require('./d3world'),
   logger = require('./logger'),
   vars = require('../shared/variables.json');
 
@@ -17,7 +17,7 @@ let statusHeight = 350;
 let player;
 let small = false;
 
-const mapGradient = [vars.$darkblue, vars.$green];
+const mapGradient = [vars.$navy, vars.$green];
 
 const margin = { top: 35, right: 50, bottom: 35, left: 50 };
 const lineSvg = d3.select('#line-container svg');
@@ -67,7 +67,7 @@ const formatCurrency = val => {
 const prepareLineGraph = allData => {
   const series = [
     { data: allData.receipts, color: vars.$green },
-    { data: allData.followups, color: vars.$gray },
+    { data: allData.followups, color: vars.$lightnavy },
     { data: allData.abandonedcarts, color: vars.$orange }
   ];
 
@@ -308,7 +308,7 @@ const prepareStatus = data => {
   const colors = [
     vars.$green,
     vars.$lightblue,
-    vars.$gray,
+    vars.$lightnavy,
     vars.$orange,
     vars.$red
   ];
@@ -325,7 +325,7 @@ const prepareStatus = data => {
   const rocketG = statusG.append('g').classed('rocket-container', true);
   rocketG.append('use')
     .classed('rocket', true)
-    .attr('fill', vars.$darkblue)
+    .attr('fill', vars.$navy)
     .attr('width', 50)
     .attr('height', 50)
     .attr('transform', 'translate(0, -25)')
@@ -333,7 +333,7 @@ const prepareStatus = data => {
 
   const monthX = 20;
   const monthText = rocketG.append('text')
-    .attr('fill', vars.$darkblue)
+    .attr('fill', vars.$navy)
     .attr('x', monthX)
     .attr('y', -24)
     .attr('text-anchor', 'middle');
@@ -492,7 +492,7 @@ const preparePie = allData => {
   const chart = new PieChart('#donut-container svg', {
     center: { showLabel: false },
     color: {
-      scheme: [vars.$green, vars.$gray, vars.$orange],
+      scheme: [vars.$green, vars.$lightnavy, vars.$orange],
       labels: true,
       lines: true
     }
@@ -546,22 +546,6 @@ const prepareData = data => {
 };
 
 const prepareMap = allData => {
-  const $map = $('#map-container svg');
-  const map = d3.select('#map-container svg');
-  const mapWidth = $map.width();
-  const dateFormatter = d3.timeFormat('%Y-%m-%d');
-
-  const mapRatio = 0.5;
-  const mapHeight = mapWidth * mapRatio;
-  map.attr('height', mapHeight);
-
-  const projection = d3.geoMercator()
-    .scale((mapWidth + 1) / 3 / Math.PI)
-    .translate([mapWidth / 2, mapHeight / 1.5])
-
-  const geoPath = d3.geoPath()
-    .projection(projection);
-
   const countrySum = {};
 
   // Mapping looks like this:
@@ -577,73 +561,31 @@ const prepareMap = allData => {
         });
     });
 
-  const fromColor = mapGradient[0];
-  const toColor = mapGradient[1];
-
   // Each country gets it's own color scale
   const colors = d3.map();
+  const interpolator = d3.interpolateRgb(mapGradient[0], mapGradient[1]);
   d3.entries(countrySum)
     .forEach(entry => {
       const colorScale = d3.scaleSequential()
         .domain([0, entry.value])
-        .interpolator(d3.interpolateRgb(fromColor, toColor));
+        .interpolator(interpolator);
       colors.set(entry.key, colorScale);
     });
 
-  d3.json(window.DATA_BASE_URL + '/110m.json', world => {
-    const features = topojson.feature(world, world.objects.countries).features;
-    for (const feature of features) {
-      feature.centroid = geoPath.centroid(feature);
-
-      const country = allData.countries[feature.id];
-      if (country && typeof country.lat !== 'undefined') {
-        feature.lat = country.lat;
-        feature.long = country.long;
-        feature.centroidP = projection([country.long, country.lat]);
-        feature.name = country.name;
-      }
-    }
-
-    const tooltipText = d => {
-      return '<div class="country">' +
-        `<div class="name">${d.name} </div>` +
-        `<div class="value">${d.rc || 0}</div>` +
-        '</div>';
-    };
-
-    map.append('g')
-      .attr('class', 'countries')
-      .selectAll('g')
-      .data(features)
-      .enter().append('g')
-        .attr('id', d => `country-${d.id}`)
-        .classed('country', true)
-        .append('path')
-          .attr('fill', fromColor)
-          .attr('d', geoPath)
-      .on('mouseover', function(d, i) {
-        tooltip.style('display', null)
-          .transition().duration(300)
-          .style('opacity', .9);
-        tooltip.html(tooltipText(d));
-        d3.select(this).classed('hover', true);
-      })
-      .on('mousemove', () => {
-        tooltip.style('left', (d3.event.pageX) + 'px')
-          .style('top', (d3.event.pageY + 28) + 'px');
-      })
-      .on('mouseout', function(d, i) {
-        tooltip.style('opacity', 0)
-          .style('display', 'none');
-        d3.select(this).classed('hover', false);
-      });
+  // Use the world-map helper to draw the map, but don't use it for updating the data.
+  const worldMap = new WorldMap('#map-container svg', {
+    fromColor: mapGradient[0],
+    toColor: mapGradient[1],
+    value: d => d.rc,
+    valueLabel: d => (d.rc || 0).toLocaleString()
   });
 
+  const dateFormatter = d3.timeFormat('%Y-%m-%d');
   player.on('time.update', (e, i, time) => {
     const countries = allData.countryClicks[dateFormatter(time)];
     if (!countries) return;
     for (const countryCode of d3.keys(countries)) {
-      const countryG = map.select(`g#country-${countryCode}`)
+      const countryG = worldMap.map.select(`g#country-${countryCode}`)
       countryG.select('path')
         .attr('fill', d => colors.get(countryCode)(d.rc = countries[countryCode].rc))
 
@@ -678,7 +620,7 @@ const prepareMap = allData => {
   });
 
   player.on('time.rewind', () => {
-    map.selectAll('g.country path').attr('fill', fromColor);
+    worldMap.map.selectAll('g.country path').attr('fill', fromColor);
   })
 };
 

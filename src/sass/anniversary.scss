@@ -19,51 +19,17 @@ ul.pager {
 
     &:hover {
       use {
-        fill: lighten($darkblue, 40%);
+        fill: lighten($navy, 40%);
       }
     }
   }
 }
 
 #tooltip {
-  position: absolute;
-  z-index: 9999;
-  max-width: 150px;
-  background: #eeeeee;
-  color: $darkblue;
-  padding: 7px;
-  text-align: center;
-  border: 0px;
-  border-radius: 4px;
-
   .country {
     .value {
       font-size: 18px;
     }
-  }
-}
-
-#loader {
-  font-size: 24px;
-  position: fixed;
-  z-index: 999;
-  height: 50px;
-  width: 150px;
-  margin: 300px auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-
-  &:before {
-    content: '';
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba($darkblue, 0.3);
   }
 }
 
@@ -91,7 +57,7 @@ ul.pager {
   }
 
   line.timeline {
-    stroke: $darkblue;
+    stroke: $navy;
     stroke-dasharray: 4px;
   }
 
@@ -114,7 +80,7 @@ ul.pager {
   //height: 600px;
 
   .countries {
-    stroke: darken($darkblue, 3%);
+    stroke: darken($navy, 3%);
     stroke-linejoin: round;
 
     path.hover {
@@ -161,7 +127,7 @@ div.clicks {
 }
 
 .followup {
-  color: $gray;
+  color: $lightnavy;
 }
 
 .abandoned {
@@ -171,7 +137,7 @@ div.clicks {
 svg.icon {
   use {
     &.default {
-      fill: $darkblue;
+      fill: $navy;
     }
 
     &.receipt {
@@ -179,7 +145,7 @@ svg.icon {
     }
 
     &.followup {
-      fill: $gray;
+      fill: $lightnavy;
     }
 
     &.abandoned {

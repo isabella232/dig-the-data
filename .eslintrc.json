@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "d3": true,
+    "$": true
+  },
+  "rules": {
+    "no-plusplus": "off",
+    "strict": "off"
+  }
+}

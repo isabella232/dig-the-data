@@ -1,0 +1,47 @@
+@import 'base';
+
+// Poppins and Rubik imported via <link>
+body {
+  font-family: 'Poppins', sans-serif;
+  padding-top: 18px;
+}
+
+#heat-map {
+  height: 350px;
+}
+
+#controls {
+  margin-top: 18px;
+}
+
+svg.heat-map {
+  overflow: visible;
+
+  text {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  rect.heat-entry {
+    stroke: $offwhite;
+    stroke-width: 2px;
+  }
+}
+
+svg.world-map {
+  .countries {
+    stroke: darken($navy, 3%);
+    stroke-linejoin: round;
+
+    path.hover {
+      fill-opacity: 0.8;
+    }
+  }
+}
+
+#tooltip {
+  .value {
+    font-size: large;
+    font-weight: bold;
+  }
+}
