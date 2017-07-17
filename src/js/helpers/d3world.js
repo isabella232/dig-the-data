@@ -1,7 +1,8 @@
 'use strict';
 
-const util = require('./d3util'),
-  vars = require('../shared/variables.json');
+const topojson = require('topojson'),
+  util = require('./d3util'),
+  vars = require('../../shared/variables.json');
 
 class WorldMap {
   constructor(selector, options = {}) {

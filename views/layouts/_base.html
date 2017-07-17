@@ -7,8 +7,7 @@
     <meta name="author" content="Conversio">
     {% if metaDescription %}<meta name="description" content="{{ metaDescription }}">{% endif %}
     {% if metaKeywords %}<meta name="keywords" content="{{ metaKeywords }}">{% endif %}
-    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/components/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/css/base.css">
     {% block styles %}
     {% endblock %}
   </head>
@@ -19,14 +18,9 @@
     <script>
       window.DATA_BASE_URL = '{{ dataBaseUrl }}';
     </script>
-    <script src="/components/jquery/dist/jquery.slim.min.js"></script>
-    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6"></script>
-    <script src="/components/d3/d3.min.js"></script>
-    <script src="/components/topojson/topojson.min.js"></script>
-    <script src="/components/letteringjs/jquery.lettering.js"></script>
-    <script src="/components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
     <script src="/js/vendor.js"></script>
+    <script src="/js/base.js"></script>
     {% block scripts %}
     {% endblock %}
   </body>

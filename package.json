@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/getconversio/dig-the-data#readme",
   "scripts": {
-    "postinstall": "node_modules/.bin/bower install --allow-root && node_modules/.bin/gulp build",
+    "postinstall": "node_modules/.bin/gulp build",
     "lint": "node_modules/.bin/eslint src/js"
   },
   "dependencies": {
@@ -25,31 +25,38 @@
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "body-parser": "^1.15.2",
-    "bower": "^1.8.0",
+    "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.3",
+    "clean-webpack-plugin": "^0.1.16",
     "cookie-parser": "^1.4.3",
+    "d3": "^4.10.0",
     "debug": "^2.2.0",
     "del": "^2.2.2",
     "express": "^4.15.3",
+    "glob": "^7.1.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^6.1.2",
     "gulp-nodemon": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
+    "jquery": "^3.2.1",
     "json-loader": "^0.5.4",
+    "letteringjs": "^0.7.0",
     "morgan": "^1.7.0",
     "nunjucks": "^3.0.0",
+    "sass-module-importer": "^1.4.0",
     "scss-to-json": "^1.1.0",
     "serve-favicon": "^2.3.0",
     "through2": "^2.0.1",
+    "topojson": "^3.0.0",
     "vinyl-named": "^1.1.0",
-    "webpack": "^3.3.0",
-    "webpack-stream": "^3.2.0"
+    "webpack": "^3.3.0"
   },
   "devDependencies": {
-    "eslint": "^4.2.0",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0"
   },
   "engines": {

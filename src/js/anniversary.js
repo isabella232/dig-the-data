@@ -4,10 +4,10 @@
  * Global requirements d3 and jQuery ($). Deliberately not required here :-)
  */
 
-const Player = require('./player'),
-  PieChart = require('./d3pie'),
-  WorldMap = require('./d3world'),
-  logger = require('./logger'),
+const Player = require('./helpers/player'),
+  PieChart = require('./helpers/d3pie'),
+  WorldMap = require('./helpers/d3world'),
+  logger = require('./helpers/logger'),
   vars = require('../shared/variables.json');
 
 let lineWidth = 600;

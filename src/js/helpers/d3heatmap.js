@@ -2,8 +2,8 @@
 
 // Assumes global jquery and d3.
 
-const logger = require('./logger'),
-  vars = require('../shared/variables.json');
+const logger = require('./logger');
+const vars = require('../../shared/variables.json');
 
 const dayFormatter = d3.utcFormat('%a');
 

@@ -4,14 +4,9 @@
  * Global requirements d3 and jQuery ($). Deliberately not required here :-)
  */
 
-const HeatMap = require('./d3heatmap'),
-  logger = require('./logger'),
+const HeatMap = require('./helpers/d3heatmap'),
+  logger = require('./helpers/logger'),
   vars = require('../shared/variables.json');
-
-
-const sliceCountryData = (data, country) => {
-  if (!country) return data;
-};
 
 const setup = data => {
   const heatmap = new HeatMap('#heat-map svg');
