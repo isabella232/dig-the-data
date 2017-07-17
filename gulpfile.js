@@ -6,10 +6,12 @@ const gulp = require('gulp'),
   sass = require('gulp-sass'),
   rename = require('gulp-rename'),
   del = require('del'),
-  webpack = require('webpack-stream'),
+  webpack = require('webpack'),
+  webpackStream = require('webpack-stream'),
   named = require('vinyl-named'),
   through = require('through2'),
-  scssToJson = require('scss-to-json');
+  scssToJson = require('scss-to-json'),
+  webpackConfig = require('./webpack.config');
 
 const paths = {
   js: 'src/js/**/*.js',
@@ -30,25 +32,7 @@ gulp.task('variables', () => {
 gulp.task('compile-js', () => {
   return gulp.src(paths.js)
     .pipe(named())
-    .pipe(webpack({
-      devtool: 'source-map',
-      module: {
-        loaders: [
-          {
-            test: /\.js$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader',
-            query: {
-              presets: ['es2015']
-            }
-          },
-          {
-            test: /\.json$/,
-            loader: 'json-loader'
-          }
-        ]
-      }
-    }))
+    .pipe(webpackStream(webpackConfig, webpack))
     .pipe(gulp.dest('public/js'));
 });
 
