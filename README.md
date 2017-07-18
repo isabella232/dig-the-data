@@ -5,9 +5,16 @@ This is a little website to host the code for the Dig the Data segments on the
 
 # Install
 
-    docker-compose run --rm dev npm install
-    docker-compose run --rm dev node_modules/.bin/bower install --allow-root
+Get [`yarn`](https://yarnpkg.com/en/) and then:
+
+    yarn install
 
 # Run
 
-    docker-compose up dev
+Development:
+
+    yarn run dev
+
+Production:
+
+    node server.js

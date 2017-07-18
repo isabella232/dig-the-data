@@ -18,7 +18,8 @@
   "homepage": "https://github.com/getconversio/dig-the-data#readme",
   "scripts": {
     "postinstall": "node_modules/.bin/gulp build",
-    "lint": "node_modules/.bin/eslint src/js"
+    "lint": "node_modules/.bin/eslint src/js",
+    "dev": "NODE_ENV=development node_modules/.bin/gulp"
   },
   "dependencies": {
     "babel-core": "^6.25.0",

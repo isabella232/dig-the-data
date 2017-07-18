@@ -58,6 +58,7 @@ gulp.task('clean-css', () => del(['public/css']));
 gulp.task('clean', gulp.series('clean-css'));
 
 gulp.task('watch', () => {
+  // Webpack has its own watch
   gulp.watch(paths.sass, gulp.series('clean-css', 'build-css'));
 });
 
@@ -66,12 +67,12 @@ const nodemonConfig = {
   ext: 'js',
   watch: ['lib'],
   env: { NODE_ENV: 'development' },
-  nodeArgs: []
+  nodeArgs: [],
 };
 
-gulp.task('serve-docker', () => {
-  nodemon(Object.assign({ legacyWatch: true }, nodemonConfig));
+gulp.task('serve', () => {
+  nodemon(nodemonConfig);
 });
 
 gulp.task('build', gulp.series('clean', gulp.parallel('build-js', 'build-css')));
-gulp.task('docker', gulp.parallel('build', 'serve-docker', 'watch'));
+gulp.task('default', gulp.parallel('build', 'serve', 'watch'));
