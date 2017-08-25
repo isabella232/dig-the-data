@@ -1,6 +1,8 @@
 'use strict';
 
 class Logger {
+  /* eslint-disable no-console */
+
   constructor() {
     this.level = 0;
   }

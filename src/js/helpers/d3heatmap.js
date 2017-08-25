@@ -149,7 +149,7 @@ class HeatMap extends Chart {
       .on('mouseover', function(d) {
         _this.tooltip.style('display', null)
           .transition().duration(300)
-          .style('opacity', .9);
+          .style('opacity', 0.9);
         _this.tooltip.html(_this.tooltipText(d));
         d3.select(this).classed('hover', true);
       })
@@ -194,7 +194,8 @@ class HeatMap extends Chart {
     legendUpdate.merge(legendEnter)
       .selectAll('text')
       .data([domainFrom, domainTo])
-      .transition().duration(300)
+      .transition()
+      .duration(300)
       .tween('text', function(d) {
         const prev = this._prev || 0;
         const _this = d3.select(this);

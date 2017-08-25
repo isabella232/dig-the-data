@@ -66,7 +66,7 @@ const start = () => {
   d3.json(url)
     .on('progress', e => {
       if (e && e.lengthComputable) {
-        const prog = Math.round(e.loaded / e.total * 100);
+        const prog = Math.round((e.loaded / e.total) * 100);
         $prog.text(`${prog}%`);
       }
     })
@@ -80,7 +80,7 @@ const start = () => {
     .get();
   d3.json(window.DATA_BASE_URL + '/countries.json', (err, data) => {
     setupCountrySelect(data.countries);
-  })
+  });
 };
 
 $(document).ready(() => {

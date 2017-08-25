@@ -13,7 +13,7 @@ const gulp = require('gulp'),
 
 const paths = {
   js: 'src/js/**/*.js',
-  sass: 'src/sass/**/*.scss',
+  sass: 'src/sass/**/*.scss'
 };
 
 gulp.task('variables', () => {
@@ -36,10 +36,10 @@ const webpackCompileHandler = (cb, watching) => {
   };
 };
 
-gulp.task('compile-js', (cb) => {
+gulp.task('compile-js', cb => {
   if (process.env.NODE_ENV === 'development') {
     return compiler.watch({
-      ignored: /node_modules/,
+      ignored: /node_modules/
     }, webpackCompileHandler(cb, true));
   }
 
@@ -67,7 +67,7 @@ const nodemonConfig = {
   ext: 'js',
   watch: ['lib'],
   env: { NODE_ENV: 'development' },
-  nodeArgs: [],
+  nodeArgs: []
 };
 
 gulp.task('serve', () => {

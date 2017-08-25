@@ -116,7 +116,7 @@ const prepareLineGraph = allData => {
   const gEnter = g.enter().append('g')
     .classed('line-end', true);
   const lineEnds = gEnter.merge(g);
-  const circles = lineEnds.append('circle')
+  lineEnds.append('circle')
     .attr('fill', d => d.color);
   const rects = lineEnds.append('rect')
     .attr('width', 96)
@@ -129,7 +129,7 @@ const prepareLineGraph = allData => {
     .attr('stroke', d => d.color)
     .attr('stroke-width', 3)
     .attr('stroke-opacity', 0);
-  const texts = lineEnds.append('text')
+  lineEnds.append('text')
     .classed('number', true)
     .attr('width', 96)
     .attr('height', 30)
@@ -138,12 +138,12 @@ const prepareLineGraph = allData => {
     .attr('text-anchor', 'middle')
     .attr('fill', d => d.color)
     .attr('fill-opacity', 0)
-    .text('0')
+    .text('0');
 
   const extents = [
     [1, 1000000],
     [1, d3.max(series[0].data, d => d.rc)]
-  ]
+  ];
 
   // Create the full x scale.
   x.domain(d3.extent(player.timestamps));
@@ -271,7 +271,6 @@ const prepareLineGraph = allData => {
   player.on('time.update', (_, index, time) => {
     updateChart(index, time);
 
-
     // Rescale the svg if necessary
     let rightDiff = 0;
     rects.each(function() {
@@ -292,7 +291,7 @@ const prepareLineGraph = allData => {
       lineEnd.select('rect').attr('stroke-opacity', 0);
       lineEnd.select('text').attr('fill-opacity', 0);
     });
-  })
+  });
 };
 
 const prepareStatus = data => {
@@ -328,7 +327,7 @@ const prepareStatus = data => {
     .attr('width', 50)
     .attr('height', 50)
     .attr('transform', 'translate(0, -25)')
-    .attr('xlink:href', '/images/icons/icons.svg#rocket')
+    .attr('xlink:href', '/images/icons/icons.svg#rocket');
 
   const monthX = 20;
   const monthText = rocketG.append('text')
@@ -365,7 +364,7 @@ const prepareStatus = data => {
       .attr('fill-opacity', 0)
       .attr('text-anchor', 'middle')
       .attr('y', 75)
-      .text(ev.name)
+      .text(ev.name);
 
     let endLine = 30;
     const bbox = text.node().getBoundingClientRect();
@@ -400,7 +399,7 @@ const prepareStatus = data => {
   player.on('time.update', (e, i, time) => {
     line.attr('x2', x(time));
     rocketG.attr('transform', `translate(${x(time)},0)`);
-    monthText.text(monthFormatter(time))
+    monthText.text(monthFormatter(time));
     const ev = events.get(dateFormatter(time));
     if (ev) drawEvent(ev);
   });
@@ -417,7 +416,7 @@ const prepareLabels = allData => {
   const followups = d3.map(allData.followups, d => dateFormatter(d.ts));
   const abandonedCarts = d3.map(allData.abandonedcarts, d => dateFormatter(d.ts));
   const widgets = d3.map(allData.widgetClicks, d => dateFormatter(d.ts));
-  const conversions = d3.map(allData.conversions, d => dateFormatter(d.ts))
+  const conversions = d3.map(allData.conversions, d => dateFormatter(d.ts));
 
   const $rclicks = $('#receipt-clicks');
   const $fclicks = $('#followup-clicks');
@@ -458,7 +457,7 @@ const prepareLabels = allData => {
   player.on('time.rewind', () => {
     $revenue.html('&dollar;0');
     $('.clicks span').text('0');
-  })
+  });
 };
 
 const preparePie = allData => {
@@ -521,7 +520,7 @@ const preparePie = allData => {
   player.on('time.rewind', () => {
     currentData = createData();
     chart.reset();
-  })
+  });
 };
 
 /**
@@ -584,9 +583,9 @@ const prepareMap = allData => {
     const countries = allData.countryClicks[dateFormatter(time)];
     if (!countries) return;
     for (const countryCode of d3.keys(countries)) {
-      const countryG = worldMap.map.select(`g#country-${countryCode}`)
+      const countryG = worldMap.map.select(`g#country-${countryCode}`);
       countryG.select('path')
-        .attr('fill', d => colors.get(countryCode)(d.rc = countries[countryCode].rc))
+        .attr('fill', d => colors.get(countryCode)(d.rc = countries[countryCode].rc));
 
       // Only allow 3 stars per country for performance. 1 for small screens.
       const compareTo = small ? 1 : 3;
@@ -627,7 +626,7 @@ const start = () => {
   const url = window.DATA_BASE_URL + '/anniversary.json';
   const $loader = $('#loader');
   const $prog = $('#progress');
-  const xhr = d3.json(url)
+  d3.json(url)
     .on('progress', e => {
       if (e && e.lengthComputable) {
         const prog = Math.round(e.loaded / e.total * 100);

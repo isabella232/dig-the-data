@@ -6,5 +6,9 @@
   },
   "globals": {
     "$": true
+  },
+  "rules": {
+    "no-restricted-syntax": "off",
+    "no-mixed-operators": "off"
   }
 }
