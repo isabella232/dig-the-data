@@ -18,6 +18,16 @@ path.arc {
   }
 }
 
+g.no-data {
+  rect {
+    fill: $white;
+  }
+
+  text {
+    font-size: 24px;
+  }
+}
+
 polyline {
   opacity: .3;
   stroke: #000;

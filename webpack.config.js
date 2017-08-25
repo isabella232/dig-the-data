@@ -45,12 +45,12 @@ const webpackConfig = {
   context: path.resolve(__dirname, 'src/js'),
   entry: entries,
   resolve: {
-    extensions: ['.js', '.json', '.jsx'],
+    extensions: ['.js', '.json', '.jsx']
   },
   output: {
     filename: '[name].js',
     path: outputPath,
-    publicPath: '/js/',
+    publicPath: '/js/'
   },
   module: {
     rules: [
@@ -58,23 +58,22 @@ const webpackConfig = {
       {
         test: /\.json$/,
         loader: 'json-loader',
-      },
-    ],
+      }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin([outputPath]),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      jquery: 'jquery',
-      d3: 'd3',
+      jquery: 'jquery'
     }),
     // To extract node_modules imports into a vendor.js file.
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: module => module.context && module.context.includes('node_modules'),
-    }),
-  ],
+    })
+  ]
 };
 
 if (isProduction) {

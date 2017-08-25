@@ -1,0 +1,481 @@
+@import 'base';
+
+@mixin industry-color($kind:'fill') {
+  &.animal_pet_care {
+    #{$kind}: $animalpetcare;
+  }
+
+  &.arts_crafts {
+    #{$kind}: $artscrafts;
+  }
+
+  &.automotive {
+    #{$kind}: $automotive;
+  }
+
+  &.books_music_video {
+    #{$kind}: $booksmusicvideo;
+  }
+
+  &.business_education {
+    #{$kind}: $businesseducation;
+  }
+
+  &.computer_electronics {
+    #{$kind}: $computerelectronics;
+  }
+
+  &.digital_goods_software {
+    #{$kind}: $digitalgoodssoftware;
+  }
+
+  &.fashion_apparel {
+    #{$kind}: $fashionapparel;
+  }
+
+  &.food_beverage {
+    #{$kind}: $foodbeverage;
+  }
+
+  &.furniture {
+    #{$kind}: $furniture;
+  }
+
+  &.garden_home_improvement {
+    #{$kind}: $gardenhomeimprovement;
+  }
+
+  &.health_beauty {
+    #{$kind}: $healthbeauty;
+  }
+
+  &.hobbies_travel {
+    #{$kind}: $hobbiestravel;
+  }
+
+  &.jewelry_accessories {
+    #{$kind}: $jewelryaccessories;
+  }
+
+  &.other {
+    #{$kind}: $other;
+  }
+
+  &.sports_recreation {
+    #{$kind}: $sportsrecreation;
+  }
+
+  &.toys_games {
+    #{$kind}: $toysgames;
+  }
+
+  &.travel_experiences {
+    #{$kind}: $travelexperiences;
+  }
+
+  &.wedding_bridal {
+    #{$kind}: $weddingbridal;
+  }
+}
+
+// Poppins and Rubik imported via <link>
+body {
+  color: $lightnavy;
+  font-family: 'Rubik', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  padding-top: 18px;
+}
+
+.container {
+  margin: 40px auto;
+}
+
+h1 {
+  background: transparent url("../../images/storegrader/storegrader_logo.png") 0 0 no-repeat;
+  background-size: contain;
+  height: 107px;
+  margin: 0 auto 40px;
+  text-indent: -9999px;
+  width: 130px;
+}
+
+.btn {
+  background: $storegradergreen;
+  border: 0;
+  border-radius: 2px;
+  color: $white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 2px;
+  padding: 11px 24px;
+
+  &:hover,
+  &:focus,
+  &:active{
+    background: $storegraderlightgreen;
+    color: $white;
+  }
+
+  &:visited {
+    color: $white;
+  }
+}
+
+#controls {
+  .btn-default.active {
+    background-color: $white;
+    border: 1px solid rgba(0,0,0,.15);
+    box-shadow: none;
+    padding: 10px 24px;
+  }
+}
+
+.form-inline .form-control {
+  background-color: $white;
+  font-size: 15px;
+  height: 44px;
+}
+
+.heading {
+  margin: 60px auto 30px;
+  max-width: 500px;
+
+  h3 {
+    font-size: 20px;
+    line-height: 1.5em;
+    text-align: center;
+  }
+}
+
+#tooltip {
+  .bar-tip {
+    .value {
+      font-size: 18px;
+    }
+  }
+}
+
+svg {
+  font-family: 'Rubik', sans-serif;
+
+  .axis {
+    text {
+      // Needs to be set here to avoid axis overrides by d3
+      fill: $lightnavy;
+      font-family: 'Rubik', sans-serif;
+      font-weight: 500;
+    }
+  }
+
+  .axis-y-name {
+    fill: $lightnavy;
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+#line-container {
+  height: 350px;
+
+  .lines {
+    path {
+      &.line {
+        stroke-width: 2px;
+      }
+
+      @include industry-color('stroke')
+    }
+  }
+
+  circle {
+    &.point {
+      fill: '#fff';
+
+      &:hover {
+        fill: $storegradergreen;
+      }
+    }
+  }
+
+  .guide {
+    line {
+      stroke-width: 1px;
+      stroke-opacity: 0.7;
+      stroke: $lightnavy;
+    }
+
+    circle {
+      fill: $lightnavy;
+    }
+
+    text {
+      fill: $navy;
+    }
+  }
+
+  .no-data {
+    rect {
+      fill-opacity: 0.8;
+    }
+  }
+}
+
+
+#bar-container {
+  height: 450px;
+
+  .axis-x {
+    text {
+      font-size: 12px;
+
+      &.hover {
+        @include industry-color();
+      }
+    }
+  }
+
+  .bar {
+    rect {
+      fill: $storegradergreen;
+
+      &.hover {
+        fill-opacity: 0.6;
+      }
+
+      @include industry-color()
+    }
+  }
+}
+
+.intro {
+  padding: 0 40px;
+}
+
+.july-review {
+  background: transparent url("../../images/storegrader/calendar.png") 0 0 no-repeat;
+  background-size: cover;
+  min-height: 560px;
+  margin-top: 200px;
+
+  h2 {
+    font-size: 28px;
+    font-weight: 600;
+  }
+}
+
+.timeline-wrapper {
+  margin: 30px auto 0;
+  max-width: 695px;
+}
+
+.timeline {
+  position: relative;
+  margin-right: 36px;
+  padding: 20px;
+  list-style-type: none;
+
+  li {
+    margin-top: -40px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+    &::after {
+      content: "";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+  }
+
+  div {
+    position: relative;
+    width: 50%;
+    max-width: 330px;
+
+    &.direction-l {
+      float: left;
+      text-align: right;
+    }
+
+    &.direction-r {
+      float: right;
+      text-align: left;
+
+      p {
+        margin-left: 20px;
+      }
+    }
+
+    .arrow {
+      img {
+        height: 125px;
+      }
+    }
+  }
+}
+
+.card {
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right bottom;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  border: 0;
+  border-radius: 2px;
+  margin: 40px 0;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.fade-in{
+  animation: 1s fadeIn;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+}
+
+.big {
+  color: $white;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.medium {
+  color: $storegradergreen;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.38462;
+}
+
+.small {
+  font-size: 16px;
+  line-height: 1.33333;
+}
+
+.stats-top {
+  margin: 60px auto;
+  max-width: 695px;
+  min-height: 210px;
+  position: relative;
+}
+
+.circles {
+  .circle-one {
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+    background-color: #e7277c;
+    left: 25%;
+    top: 50px;
+    z-index: 2;
+    font-size: 18px;
+  }
+  .circle-two {
+    height: 280px;
+    width: 280px;
+    border-radius: 50%;
+    background-color: $storegradergreen;
+    left: 40%;
+    font-size: 30px;
+
+    .text {
+      font-size: 24px;
+      right: 23%;
+      top: 34%;
+    }
+  }
+
+  .circle-three {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    background-color: #79d9ea;
+    left: 20%;
+    font-size: 30px;
+    top: 150px;
+
+    .text {
+      font-size: 14px;
+      margin-left: 30px;
+      text-align: left;
+    }
+  }
+
+  > div {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    position: absolute;
+
+    animation: circles-load 1s cubic-bezier(0.17, 0.67, .58, 1.2);
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+    -webkit-animation: circles-load 1s cubic-bezier(0.17, 0.67, .58, 1.2);
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-delay: 0.5s;
+  }
+
+  .text {
+    position: absolute;
+    font-size: 18px;
+    top: 20%;
+    right: 15%;
+    color: #fff;
+  }
+}
+
+@keyframes circles-load {
+  50% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes circles-load {
+    50% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .intro {
+    padding: 0;
+
+    .stats-top {
+      div {
+        display: block;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .form-inline .form-control {
+    margin: 0 auto;
+    width: 350px;
+  }
+}

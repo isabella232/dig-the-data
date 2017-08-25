@@ -1,6 +1,8 @@
 'use strict';
 
-// Assumes global jquery and d3.
+// Assumes global jquery.
+
+const d3 = require('d3');
 
 class PieChart {
   constructor(selector, options = {}) {
@@ -23,7 +25,9 @@ class PieChart {
     this.exitDuration = 300;
     if (!this.transition) {
       // Setting a transition to 0 ms duration actually works ok, but it's probably suboptimal...
-      this.enterDuration = this.updateDuration = this.exitDuration = 0;
+      this.enterDuration = 0;
+      this.updateDuration = 0;
+      this.exitDuration = 0;
     }
 
     // Select svg element and calculate base properties.
@@ -47,19 +51,32 @@ class PieChart {
 
     // Calculate arcs. For a single-valued dataset, this will be a full circle.
     this.pie = d3.pie().value(this.value);
+    if (typeof options.sort !== 'undefined') {
+      this.sort = options.sort;
+      this.pie = this.pie.sort(options.sort);
+    }
+    if (typeof options.sortValues !== 'undefined') {
+      this.sortValues = options.sortValues;
+      this.pie = this.pie.sortValues(options.sortValues);
+    }
 
     this.reset();
+  }
+
+  resetPieCenter() {
+    const text = this.svg.select('.center-label text');
+    text.selectAll('tspan').remove();
+    return text;
   }
 
   /**
    * Utility function for updating the pie center text for a single data point.
    * @param {Object} d - Data point
    */
-  _updatePieCenter(d) {
-    const text = this.svg.select('.center-label text');
-    text.selectAll('tspan').remove();
+  updatePieCenter(d) {
+    const text = this.resetPieCenter();
 
-    const valueSpan = text.append('tspan')
+    text.append('tspan')
       .attr('x', 0)
       .classed('value', true)
       .text(this.valueFormat(this.value(d)));
@@ -72,13 +89,13 @@ class PieChart {
 
       // Adjust text dy based on the bounding box.
       const bbox = text.node().getBBox();
-      text.attr('dy', '-' + (bbox.height / 4) + 'px');
+      text.attr('dy', `-${bbox.height / 4}px`);
     }
 
     if (this.color.labels && d.arc.color) {
       text.style('fill', d.arc.color);
     }
-  };
+  }
 
   /**
    * Updates this pie chart with the given data
@@ -89,15 +106,18 @@ class PieChart {
     let updateDelay = 0;
 
     // Easier access to certain function from closure functions...
-    const arc = this.arc;
     const donutArc = this.donutArc;
     const marginArc = this.marginArc;
+
+    // D3 also sorts behind the scenes, but we're doing it manually here so we
+    // can add the right colors below :)
+    if (this.sort) data = data.sort(this.sort);
 
     // Calculate the correct arcs for the pie.
     const arcs = this.pie(data);
     data.forEach((d, i) => {
       d.arc = arcs[i];
-      d.arc.color = this.color.scheme[i];
+      d.arc.color = this.color.scheme[i % this.color.scheme.length];
     });
 
     // Create the update selection for the pie slices
@@ -158,8 +178,8 @@ class PieChart {
     gEnter.append('polyline').classed('.label-line', true);
     gEnter.append('text').classed('.label-text', true);
 
-    // Update existing paths by interpolating their start and end angles if transitioning is
-    // enabled.
+    // Update existing paths by interpolating their start and end angles if
+    // transitioning is enabled.
     gUpdate.selectAll('path')
       .transition('pie-update')
       .delay(updateDelay)
@@ -203,17 +223,26 @@ class PieChart {
       return center;
     };
 
-    const opacityAccessor = d => this.value(d) === 0 ? 0 : 1
+    const opacityAccessor = d => (this.value(d) === 0 ? 0 : 1);
 
     // Create the polyline that goes to the text label.
+    // Each line has three fixed points:
+    // 1. At the center of the donut arc.
+    // 2. At the center of the margin of the donut.
+    // 3. At the position of the text label.
+    // This creates a polyline in two sections with a bend in the middle.
     const lines = gMerged.selectAll('polyline')
       .attr('stroke-opacity', 0)
       .attr('points', d => {
         const end = labelCenter(d);
+
+        // Allow some space between the label position and the polyline
         if (end[0] > 0) end[0] -= 10;
         else end[0] += 10;
+
+        // The three fixed points for the line.
         return [donutArc.centroid(d.arc), marginArc.centroid(d.arc), end];
-      })
+      });
 
     if (this.color.lines) {
       // Use style in case there was a CSS override.
@@ -221,6 +250,7 @@ class PieChart {
       lines.style('stroke', d => d.arc.color);
     }
 
+    // Fade-in the lines
     lines
       .transition('pie-label-lines')
       .delay(enterDelay)
@@ -245,6 +275,7 @@ class PieChart {
       labels.style('fill', d => d.arc.color);
     }
 
+    // Fade-in the text labels.
     labels
       .transition('pie-label-text')
       .delay(enterDelay)
@@ -252,13 +283,14 @@ class PieChart {
       .attr('fill-opacity', opacityAccessor);
 
     // Set mouseover hover events.
+    this.resetPieCenter();
     gMerged.selectAll('path')
-      .on('mouseover', function(d, i) {
+      .on('mouseover', function() {
         const path = d3.select(this);
         path.classed('hover', true);
       })
-      .on('mousemove', d => this._updatePieCenter(d))
-      .on('mouseout', function(d, i) {
+      .on('mousemove', d => this.updatePieCenter(d))
+      .on('mouseout', function() {
         d3.select(this).classed('hover', false);
       });
   }
@@ -268,8 +300,7 @@ class PieChart {
 
     // Make sure the outer grouping is in the right spot
     const outerG = this.svg.append('g')
-      .attr('transform', `translate(${this.width/2},${this.height/2})`);
-
+      .attr('transform', `translate(${this.width / 2},${this.height / 2})`);
 
     // Ensure slice and label containers
     if (outerG.select('.slices').size() === 0) {

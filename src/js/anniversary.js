@@ -1,14 +1,15 @@
 'use strict';
 
 /**
- * Global requirements d3 and jQuery ($). Deliberately not required here :-)
+ * Global requirement is jQuery ($). Deliberately not required here :-)
  */
 
-const Player = require('./helpers/player'),
-  PieChart = require('./helpers/d3pie'),
-  WorldMap = require('./helpers/d3world'),
-  logger = require('./helpers/logger'),
-  vars = require('../shared/variables.json');
+const d3 = require('d3');
+const Player = require('./helpers/player');
+const PieChart = require('./helpers/d3pie');
+const WorldMap = require('./helpers/d3world');
+const logger = require('./helpers/logger');
+const vars = require('../shared/variables.json');
 
 let lineWidth = 600;
 let lineHeight = 350;
@@ -25,7 +26,6 @@ const lineG = lineSvg.append('g');
 
 const statusSvg = d3.select('#status-container svg');
 const statusG = statusSvg.append('g');
-const tooltip = d3.select('#tooltip');
 
 const resize = () => {
   small = $(window).width() < 450;
@@ -43,14 +43,13 @@ const resize = () => {
   logger.debug('New status size', statusWidth, statusHeight);
 
   lineSvg.attr('width', lineWidth + margin.left + margin.right)
-    .attr('height', lineHeight + margin.top + margin.bottom)
+    .attr('height', lineHeight + margin.top + margin.bottom);
   lineG.attr('transform', `translate(${margin.left},${margin.top})`);
 
   statusSvg.attr('width', statusWidth + margin.left + margin.right)
-    .attr('height', statusHeight + margin.top)
+    .attr('height', statusHeight + margin.top);
   statusG.attr('transform', `translate(${margin.left},${margin.top})`);
 };
-
 
 const formatCurrency = val => {
   return val.toLocaleString('en-US', {
@@ -96,7 +95,7 @@ const prepareLineGraph = allData => {
       .attr('fill', '#000')
       .attr('transform', 'rotate(-90)')
       .attr('y', -6)
-      .attr('x', -(lineHeight/ 2))
+      .attr('x', -(lineHeight / 2))
       .attr('text-anchor', 'middle')
       .text('Sent Emails');
 
@@ -225,7 +224,7 @@ const prepareLineGraph = allData => {
       let idx = indexes[i];
       if (idx >= data.length) idx = data.length - 1;
 
-      const text = lineEnd.select('text').text(txt);
+      const text = lineEnd.select('text');
       const rect = lineEnd.select('rect');
       const circle = lineEnd.select('circle');
 
@@ -347,10 +346,10 @@ const prepareStatus = data => {
     const evG = statusG.append('g')
       .classed('status-event', true)
       .attr('transform', `translate(${xPos},0)`);
-    const line = evG.append('line')
+    const eventLine = evG.append('line')
       .style('stroke', ev.color)
       .attr('y1', 10)
-      .attr('y2', 10)
+      .attr('y2', 10);
 
     const use = evG.append('use')
       .attr('width', 30)
@@ -359,7 +358,7 @@ const prepareStatus = data => {
       .attr('y', 33)
       .attr('opacity', 0)
       .attr('fill', ev.color)
-      .attr('xlink:href', '/images/icons/icons.svg#star')
+      .attr('xlink:href', '/images/icons/icons.svg#star');
 
     const text = evG.append('text')
       .attr('fill', ev.color)
@@ -370,7 +369,7 @@ const prepareStatus = data => {
 
     let endLine = 30;
     const bbox = text.node().getBoundingClientRect();
-    statusG.selectAll('.status-event text').each(function(d, i) {
+    statusG.selectAll('.status-event text').each(function() {
       const otherText = d3.select(this);
       if (otherText.node() === text.node()) return;
 
@@ -393,7 +392,7 @@ const prepareStatus = data => {
       .duration(fillTrans)
       .attr('fill-opacity', 1);
 
-    line.transition()
+    eventLine.transition()
       .duration(lineTrans)
       .attr('y2', endLine);
   };
@@ -620,8 +619,8 @@ const prepareMap = allData => {
   });
 
   player.on('time.rewind', () => {
-    worldMap.map.selectAll('g.country path').attr('fill', fromColor);
-  })
+    worldMap.map.selectAll('g.country path').attr('fill', mapGradient[0]);
+  });
 };
 
 const start = () => {

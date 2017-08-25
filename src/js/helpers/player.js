@@ -1,5 +1,6 @@
 'use strict';
 
+const d3 = require('d3');
 const logger = require('./logger');
 
 /**

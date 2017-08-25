@@ -1,8 +1,8 @@
 'use strict';
 
-const topojson = require('topojson'),
-  util = require('./d3util'),
-  vars = require('../../shared/variables.json');
+const topojson = require('topojson');
+const d3 = require('d3');
+const vars = require('../../shared/variables.json');
 
 class WorldMap {
   constructor(selector, options = {}) {
@@ -37,8 +37,8 @@ class WorldMap {
 
     const resolution = options.resolution || '110m';
     this.queue = d3.queue()
-      .defer(d3.json, window.DATA_BASE_URL + `/${resolution}.json`)
-      .defer(d3.json, window.DATA_BASE_URL + `/countries.json`)
+      .defer(d3.json, `${window.DATA_BASE_URL}/${resolution}.json`)
+      .defer(d3.json, `${window.DATA_BASE_URL}/countries.json`)
       .awaitAll((err, [world, countries]) => {
         countries = d3.map(countries.countries, d => d.num);
         this.draw(world, countries);
@@ -52,7 +52,7 @@ class WorldMap {
   update(data) {
     this.colorScale.domain(d3.extent(data, this.value));
 
-    const countryG = this.map.selectAll(`g.country`)
+    this.map.selectAll('g.country')
       .select('path')
       .attr('fill', d => {
         const entry = data.find(dd => dd.country === d.id);
@@ -62,10 +62,6 @@ class WorldMap {
         d.value = this.value(entry);
         return this.colorScale(d.value);
       });
-
-    // Manually run through the data since we don't want to override the features.
-    for (const entry of data) {
-    }
   }
 
   draw(world, countries) {
@@ -81,29 +77,30 @@ class WorldMap {
       }
     }
 
-    const _this = this;
+    const mapInstance = this;
     this.map.append('g')
       .attr('class', 'countries')
       .selectAll('g')
       .data(features)
-      .enter().append('g')
+      .enter()
+      .append('g')
         .attr('id', d => `country-${d.id}`)
         .classed('country', true)
         .append('path')
           .attr('fill', this.emptyColor)
           .attr('d', this.geoPath)
-      .on('mouseover', function(d, i) {
-        _this.tooltip.style('display', null)
+      .on('mouseover', function(d) {
+        mapInstance.tooltip.style('display', null)
           .transition().duration(300)
-          .style('opacity', .9);
-        _this.tooltip.html(_this.tooltipText(d));
+          .style('opacity', 0.9);
+        mapInstance.tooltip.html(mapInstance.tooltipText(d));
         d3.select(this).classed('hover', true);
       })
       .on('mousemove', () => {
-        _this.tooltip.style('left', `${d3.event.pageX}px`).style('top', `${d3.event.pageY + 28}px`);
+        mapInstance.tooltip.style('left', `${d3.event.pageX}px`).style('top', `${d3.event.pageY + 28}px`);
       })
       .on('mouseout', function() {
-        _this.tooltip.style('opacity', 0).style('display', 'none');
+        mapInstance.tooltip.style('opacity', 0).style('display', 'none');
         d3.select(this).classed('hover', false);
       });
   }

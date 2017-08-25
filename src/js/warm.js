@@ -1,12 +1,12 @@
 'use strict';
 
 /**
- * Global requirements d3 and jQuery ($). Deliberately not required here :-)
+ * Global requirements jQuery ($)
  */
 
-const HeatMap = require('./helpers/d3heatmap'),
-  logger = require('./helpers/logger'),
-  vars = require('../shared/variables.json');
+const d3 = require('d3');
+const HeatMap = require('./helpers/d3heatmap');
+const logger = require('./helpers/logger');
 
 const setup = data => {
   const heatmap = new HeatMap('#heat-map svg');
@@ -14,7 +14,7 @@ const setup = data => {
   let country = '';
 
   const update = () => {
-    let dataPoints = [];
+    const dataPoints = [];
     for (const dow of d3.range(1, 8)) {
       for (const hour of d3.range(0, 24)) {
         const hourData = data.countries[dow][hour];
@@ -24,8 +24,8 @@ const setup = data => {
 
         const dataPoint = { dow, hour, cnt: 0 };
         for (const countryKey of keys) {
-          const country = hourData[countryKey] || {};
-          dataPoint.cnt += dataSelection === 'clicks' ? (country.c || 0) : (country.v || 0);
+          const countryInner = hourData[countryKey] || {};
+          dataPoint.cnt += dataSelection === 'clicks' ? (countryInner.c || 0) : (countryInner.v || 0);
         }
         dataPoints.push(dataPoint);
       }

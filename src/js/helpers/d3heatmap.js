@@ -1,9 +1,11 @@
 'use strict';
 
-// Assumes global jquery and d3.
+// Assumes global jquery.
 
-const logger = require('./logger');
+const d3 = require('d3');
 const vars = require('../../shared/variables.json');
+const logger = require('./logger');
+const Chart = require('./d3chart');
 
 const dayFormatter = d3.utcFormat('%a');
 
@@ -35,12 +37,9 @@ const dayOfWeekAndHourText = (dow, hour) => {
   return `${dayOfWeek}, ${hourInterval}`;
 };
 
-class HeatMap {
+class HeatMap extends Chart {
   constructor(selector, options = {}) {
-    this.selector = selector;
-    this.svg = d3.select(selector);
-    this.dom = $(selector);
-    this.resize();
+    super(selector);
 
     // Set default margins.
     this.margin = { top: 35, right: 50, bottom: 35, left: 50 };
@@ -52,13 +51,13 @@ class HeatMap {
 
     this.valueLabel = options.valueLabel || (d => (d.cnt || 0).toLocaleString());
     this.xLabel = options.xLabel || (d => String(d));
-    this.yLabel = options.yLabel || (d => dayOfWeekText(d-1));
+    this.yLabel = options.yLabel || (d => dayOfWeekText(d - 1));
 
     this.fromColor = options.fromColor || vars.$gray;
     this.toColor = options.toColor || vars.$orange;
 
     this.tooltip = options.tooltip || d3.select('#tooltip');
-    this.tooltipLabel = options.tooltipLabel || (d => dayOfWeekAndHourText(d.dow-1, d.hour));
+    this.tooltipLabel = options.tooltipLabel || (d => dayOfWeekAndHourText(d.dow - 1, d.hour));
 
     this.gradient = this.svg.append('defs')
       .append('linearGradient')
@@ -80,20 +79,6 @@ class HeatMap {
       .classed('x-axis', true);
     this.yAxis = this.svg.append('g')
       .classed('y-axis', true);
-  }
-
-  on(eventName, fun) {
-    this.dom.on(eventName, fun);
-  }
-
-  trigger(eventName, ...args) {
-    this.dom.trigger(eventName, args);
-  }
-
-  resize() {
-    // Use jquery for width and height fetching.
-    [this.width, this.height] = [this.dom.width(), this.dom.height()];
-    logger.debug('Heatmap SVG dimensions', this.width, this.height);
   }
 
   update(data) {
