@@ -151,9 +151,18 @@ h1 {
 
 #tooltip {
   .bar-tip {
+    color: $lightnavy;
     .value {
       font-size: 18px;
+      font-weight: 600;
     }
+  }
+}
+
+.no-data {
+  text {
+    fill: $lightnavy;
+    font-size: 20px;
   }
 }
 
@@ -204,6 +213,12 @@ svg {
       stroke-width: 1px;
       stroke-opacity: 0.7;
       stroke: $lightnavy;
+
+      .marker {
+        text {
+          fill: $lightnavy;
+        }
+      }
     }
 
     circle {
@@ -426,6 +441,10 @@ svg {
   }
 }
 
+#show-intro {
+  margin-top: 20px;
+}
+
 @keyframes circles-load {
   50% {
     -webkit-transform: scale(1.2);
@@ -470,6 +489,12 @@ svg {
         display: block;
       }
     }
+  }
+}
+
+@media (max-width: 690px) {
+  .stats-top {
+    margin-left: -80px;
   }
 }
 
