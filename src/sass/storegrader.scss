@@ -49,10 +49,6 @@
     #{$kind}: $healthbeauty;
   }
 
-  &.hobbies_travel {
-    #{$kind}: $hobbiestravel;
-  }
-
   &.jewelry_accessories {
     #{$kind}: $jewelryaccessories;
   }
@@ -130,6 +126,11 @@ h1 {
     box-shadow: none;
     padding: 10px 24px;
   }
+
+  .description {
+    margin: 20px auto 0;
+    max-width: 500px;
+  }
 }
 
 .form-inline .form-control {
@@ -143,7 +144,7 @@ h1 {
   max-width: 500px;
 
   h3 {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.5em;
     text-align: center;
   }
@@ -443,6 +444,10 @@ svg {
 
 #show-intro {
   margin-top: 20px;
+}
+
+span {
+  @include industry-color('color')
 }
 
 @keyframes circles-load {

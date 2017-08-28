@@ -20,12 +20,15 @@ const formatCurrency = v => v.toLocaleString('en-US' || navigator.language, {
   maximumFractionDigits: 0
 });
 
+const industryClass = industry => industry.toLowerCase().replace(/[^\w]+/g, '_');
+
 const updateMonthLine = (data, selection, view, industry) => {
   if (!industry) {
     lineChart.update([]);
     return false;
   }
 
+  const description = `Daily values for <span class="${industryClass(industry)}">${industry}</span> during July 2017`;
   selection += view;
 
   let valueFieldSelector;
@@ -49,6 +52,7 @@ const updateMonthLine = (data, selection, view, industry) => {
     default:
       lineChart.noData = 'Line graph only available for Revenue and Orders';
       lineChart.update([]);
+      $('#data-description-line').html('&nbsp;');
       return false;
   }
 
@@ -57,6 +61,7 @@ const updateMonthLine = (data, selection, view, industry) => {
     .map(i => i.days.map(d => ({ x: new Date(d.timestamp), y: d[valueFieldSelector] })));
 
   lineChart.update(data);
+  $('#data-description-line').html(description);
 
   return true;
 };
@@ -75,15 +80,14 @@ const setupMonthLine = data => {
 
   let dataSelection;
   let dataView;
-  let dataIndustry;
+  let dataIndustry = data.industries[0].name;
 
   const update = () => {
     if (updateMonthLine(data, dataSelection, dataView, dataIndustry)) {
-      const industryClass = dataIndustry.toLowerCase().replace(/[^\w]+/g, '_');
       $('#line-container path.line')
         .removeClass() // Removes all class names
         .addClass('line')
-        .addClass(industryClass);
+        .addClass(industryClass(dataIndustry));
     }
   };
 
@@ -123,13 +127,13 @@ const updateIndustryBar = (data, selection, view) => {
       valueFieldSelector = 'revenue';
       barChart.yName = 'Total Revenue (USD)';
       lineChart.yName = 'Total Revenue (USD)';
-      description = 'Showing each industry\'s total revenue';
+      description = 'Showing the sum of revenues for all stores in an industry.';
       barChart.valueFormatter = formatCurrency;
       lineChart.valueFormatter = formatCurrency;
       break;
     case 'storeRevenueMedian':
       valueFieldSelector = 'revenueMedian';
-      description = 'Showing the revenue of a typical store in the industry (i.e. the median revenue)';
+      description = 'Showing the median revenue for a store in the industry';
       barChart.yName = 'Median Revenue (USD)';
       lineChart.yName = 'Median Revenue (USD)';
       barChart.valueFormatter = formatCurrency;
@@ -137,13 +141,13 @@ const updateIndustryBar = (data, selection, view) => {
       break;
     case 'storeVolume':
       valueFieldSelector = 'volume';
-      description = 'Showing each industry\'s total number of orders';
+      description = 'Showing the sum of orders for all stores in an industry';
       barChart.yName = 'Total Orders';
       lineChart.yName = 'Total Orders';
       break;
     case 'storeVolumeMedian':
       valueFieldSelector = 'volumeMedian';
-      description = 'Showing the number of orders placed for a typical store in the industry (i.e. the median number of orders)';
+      description = 'Showing the median number of orders placed for a store in the industry';
       barChart.yName = 'Median Orders';
       lineChart.yName = 'Median Orders';
       break;
@@ -163,7 +167,7 @@ const updateIndustryBar = (data, selection, view) => {
     }));
 
   barChart.update(data);
-  $('#data-description').text(description);
+  $('#data-description-bar').text(description);
 };
 
 /**
@@ -212,10 +216,10 @@ const setupControls = () => {
 };
 
 /**
- * Sets up the initial "show" button
+ * Sets up the initial "show" or "I'm ready" button
  * @param {*} data - The JSON data
  */
-const setupDistButton = data => {
+const setupReadyButton = data => {
   const industries = data.industries;
   const industryCount = industries.length;
   const storeCount = d3.sum(industries, i => i.storeCount);
@@ -260,7 +264,8 @@ const setupDistButton = data => {
 };
 
 const setup = data => {
-  setupDistButton(data);
+  data.industries = data.industries.sort((a, b) => a.name.localeCompare(b.name));
+  setupReadyButton(data);
 };
 
 const start = () => {
